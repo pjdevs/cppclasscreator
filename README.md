@@ -4,15 +4,8 @@ A simple VSCode extension in order to esaily create a C++ class in the current w
 
 ## Features
 
-Easily create new classes with predefiied templates !
-
-![feature X](images/feature-x.png)
-
-> This is very cool and easy
-
-## Requirements
-
-No requirements for now.
+Easily create new classes with predefined template.
+You can invoke the `C++: Create Class` command or with `Ctrl/Cmd+Alt+C shortut`.
 
 ## Extension Settings
 
@@ -20,13 +13,13 @@ Settings are comming soon...
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+No know issues you can add some in Issues part.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of cppclasscreator
+- Initial release
+- Added a shortcut Ctrl.Cmd+Alt+C
+- Basic template in hpp and cpp files
 
