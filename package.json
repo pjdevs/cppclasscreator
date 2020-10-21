@@ -10,14 +10,22 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:cppclasscreator.helloWorld"
+		"onCommand:cppclasscreator.createClass"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "cppclasscreator.helloWorld",
-				"title": "Hello World"
+				"command": "cppclasscreator.createClass",
+				"title": "C++: Create Class"
+			}
+		],
+		"keybindings":[
+			{
+				"command": "cppclasscreator.createClass",
+				"key": "ctrl+alt+c",
+				"mac": "cmd+alt+c",
+				"when": "editorTextFocus"
 			}
 		]
 	},

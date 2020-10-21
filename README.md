@@ -1,6 +1,6 @@
 # cppclasscreator README
 
-This is the README for your extension "cppclasscreator". After writing up a brief description, we recommend including the following sections.
+A simple VSCode extension in order to esaily create a C++ class in the current workspace.
 
 ## Features
 
