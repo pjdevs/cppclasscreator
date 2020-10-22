@@ -7,6 +7,7 @@
 		"name": "pjdevs",
 		"email": "pj33720@gmail.com"
 	},
+	"publisher": "pjdevs",
 	"repository": "https://github.com/pjdevs/cppclasscreator",
 	"engines": {
 		"vscode": "^1.50.0"
@@ -15,8 +16,12 @@
 	"categories": [
 		"Other"
 	],
+	"extensionDependencies": [
+		"siegebell.scope-info"
+	],
 	"activationEvents": [
-		"onCommand:cppclasscreator.createClass"
+		"onCommand:cppclasscreator.createClass",
+		"onCommand:cppclasscreator.switchTo"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -24,6 +29,10 @@
 			{
 				"command": "cppclasscreator.createClass",
 				"title": "C++: Create Class"
+			},
+			{
+				"command": "cppclasscreator.switchTo",
+				"title": "C++: Switch To Header/Source"
 			}
 		],
 		"keybindings":[
@@ -32,8 +41,28 @@
 				"key": "ctrl+alt+c",
 				"mac": "cmd+alt+c",
 				"when": "editorTextFocus"
+			},
+			{
+				"command": "cppclasscreator.switchTo",
+				"key": "ctrl+alt+s",
+				"mac": "cmd+alt+s",
+				"when": "editorTextFocus"
 			}
-		]
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"when": "resourceLangId == cpp",
+					"command": "cppclasscreator.switchTo",
+					"group": "cppclasscreator"
+				},
+				{
+					"when": "",
+					"command": "cppclasscreator.implementMethod",
+					"group": "cppclasscreator"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
