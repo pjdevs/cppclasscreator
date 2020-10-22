@@ -33,7 +33,12 @@
 			{
 				"command": "cppclasscreator.switchTo",
 				"title": "C++: Switch To Header/Source"
-			}
+			},
+			{
+				"command": "cppclasscreator.implementMethod",
+				"title": "C++: Implement Method"
+			},
+		
 		],
 		"keybindings":[
 			{
@@ -47,6 +52,12 @@
 				"key": "ctrl+alt+s",
 				"mac": "cmd+alt+s",
 				"when": "editorTextFocus"
+			},
+			{
+				"command": "cppclasscreator.implementMethod",
+				"key": "alt+enter",
+				"mac": "alt+enter",
+				"when": "editorTextFocus"
 			}
 		],
 		"menus": {
@@ -57,7 +68,7 @@
 					"group": "cppclasscreator"
 				},
 				{
-					"when": "",
+					"when": "resourceLangId == cpp",
 					"command": "cppclasscreator.implementMethod",
 					"group": "cppclasscreator"
 				}
