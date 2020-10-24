@@ -2,7 +2,7 @@
 	"name": "cppclasscreator",
 	"displayName": "C++ Class Creator",
 	"description": "A C++ class creation extension for VSCode",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"author": {
 		"name": "pjdevs",
 		"email": "pj33720@gmail.com"
