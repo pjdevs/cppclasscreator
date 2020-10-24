@@ -26,3 +26,4 @@ No know issues you can add some in Issues part.
 ## 0.0.2
 
 - Added Switch to Header/Source (just for fun, it already existed)
+- Added Implement Method shortcut with Alt+Enter

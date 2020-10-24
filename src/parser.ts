@@ -1,5 +1,3 @@
-import { close } from 'fs';
-import { UserInfo } from 'os';
 import * as vscode from 'vscode';
 
 export class TextDocumentParser {
@@ -13,8 +11,6 @@ export class TextDocumentParser {
 
     private addClassToSignature(className : string, signature : string) : string {
         const words = signature.split(' ');
-        
-        console.log(words);
 
         let methodNameIndex = 1;
         if (words.length === 1) // it's a constructor
@@ -48,17 +44,25 @@ export class TextDocumentParser {
             return undefined;
 
         let parentClassName = '';
-        this.text.forEach((line, index) => {
+        let classWordFound = false;
+        this.text.forEach((line, lineNum) => {
             const words = line.trim().split(' ');
 
             for (let i=0; i<words.length; i++) {
-                if (words[i] === 'class')
+                if (words[i] === 'class') {
                     parentClassName = words[i+1];
-                
-                if (parentClassName === '' && i >= lineNumber)
-                    return undefined;
+                    classWordFound = true;
+                }
+            }
+
+            if (!classWordFound && parentClassName === '' && lineNum >= lineNumber) {
+                classWordFound = false;
+                return;
             }
         });
+
+        if (!classWordFound)
+            return undefined;
 
         const signature = this.getMethodSignatureAtLine(lineNumber);
 

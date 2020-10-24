@@ -9,3 +9,4 @@
 ## 0.0.2
 
 - Added Switch Header/Source (just for fun, it already existed)
+- Added Implement Method shortcut with Alt+Enter

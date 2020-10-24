@@ -16,12 +16,10 @@
 	"categories": [
 		"Other"
 	],
-	"extensionDependencies": [
-		"siegebell.scope-info"
-	],
 	"activationEvents": [
 		"onCommand:cppclasscreator.createClass",
-		"onCommand:cppclasscreator.switchTo"
+		"onCommand:cppclasscreator.switchTo",
+		"onCommand:cppclasscreator.implementMethod"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -38,9 +36,8 @@
 				"command": "cppclasscreator.implementMethod",
 				"title": "C++: Implement Method"
 			}
-		
 		],
-		"keybindings":[
+		"keybindings": [
 			{
 				"command": "cppclasscreator.createClass",
 				"key": "ctrl+alt+c",
@@ -95,5 +92,8 @@
 		"mocha": "^8.1.3",
 		"typescript": "^4.0.2",
 		"vscode-test": "^1.4.0"
+	},
+	"dependencies": {
+		"vscode-textmate": "^5.2.0"
 	}
 }
