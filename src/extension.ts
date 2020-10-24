@@ -1,51 +1,7 @@
 import * as vscode from 'vscode';
-
-const fs = require('fs');
-
-function genHeaderCode(className : string) : string {
-	return `#ifndef ${className.toUpperCase()}_H
-#define ${className.toUpperCase()}_H
-
-class ${className}
-{
-
-private:
-	
-
-public:
-	${className}();
-	~${className}();
-	
-};
-
-#endif`;
-}
-
-function genSourceCode(className : string) : string {
-	return `#include "${className}.hpp"
-
-${className}::${className}()
-{
-
-}
-
-${className}::~${className}()
-{
-
-}`;
-}
-
-function getCurrentDocument() : vscode.TextDocument | undefined {
-	return vscode.window.activeTextEditor?.document;
-}
-
-function cppMode(document : vscode.TextDocument) : boolean {
-
-	if (document.languageId === 'cpp')
-		return true; 
-	else
-		return false;
-}
+import { writeFileSync } from 'fs';
+import * as utils from './utils';
+import { TextDocumentParser } from './parser';
 
 function onCreateClass() {
 	vscode.window.showInputBox({
@@ -63,7 +19,7 @@ function onCreateClass() {
 
 		const wsEdit = new vscode.WorkspaceEdit();
 		const wsPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
-
+		
 		const headerFile = vscode.Uri.file(wsPath + '/' + className + '.hpp');
 		const sourceFile = vscode.Uri.file(wsPath + '/' + className + '.cpp');
 
@@ -74,8 +30,8 @@ function onCreateClass() {
 			if (!ok)
 				return;
 
-			fs.writeFileSync(headerFile.fsPath, Buffer.from(genHeaderCode(className)));;
-			fs.writeFileSync(sourceFile.fsPath, Buffer.from(genSourceCode(className)));
+			writeFileSync(headerFile.fsPath, Buffer.from(utils.genHeaderCode(className)));;
+			writeFileSync(sourceFile.fsPath, Buffer.from(utils.genSourceCode(className)));
 
 			vscode.window.showInformationMessage(`${className} class created`);
 		});
@@ -84,31 +40,45 @@ function onCreateClass() {
 
 function onSwitchTo() {
 
-	let currentDoc = getCurrentDocument();
-	if (currentDoc === undefined || !cppMode(currentDoc))
+	const currentDoc = utils.getCurrentDocument();
+	if (currentDoc === undefined || !utils.cppMode(currentDoc))
 		return;
 
-	let currentExt = '';
-	let fileArray = currentDoc?.uri.fsPath.split('.');
-	if (fileArray.length > 1)
-		currentExt = fileArray[fileArray.length-1];
+	const targetFile = utils.getSourceHeaderFile(currentDoc);
+
+	if (targetFile === currentDoc.uri)
+		vscode.window.showWarningMessage('Header/Source not found');	
 	
-	let targetExt;
-	if (currentExt === 'hpp')
-		targetExt = 'cpp';
-	else if (currentExt === 'cpp')
-		targetExt = 'hpp';
-	else {
-		vscode.window.showWarningMessage('No extension');
-		return;
-	}
-
-	let targetFile = vscode.Uri.file(fileArray.slice(0, fileArray.length-1).join() + '.' + targetExt);
 	vscode.window.showTextDocument(targetFile);
 }
 
 function onImplementMethod() {
-	//No idea
+	let currentDoc = utils.getCurrentDocument();
+	if (currentDoc === undefined || !utils.cppMode(currentDoc))
+		return;
+
+	const parser = new TextDocumentParser(currentDoc);
+	const lineNumber = vscode.window.activeTextEditor?.selection.active.line;
+
+	const methodName = parser.getMethodFullNameAtLine(lineNumber);
+
+	if (methodName === undefined) {
+		vscode.window.showWarningMessage('Can\'t get method signature here');
+		return;
+	}
+
+	const sourceFile = utils.getSourceHeaderFile(currentDoc);
+	if (sourceFile === currentDoc.uri)
+		vscode.window.showWarningMessage('Header not found');	
+
+	vscode.window.showTextDocument(sourceFile).then((editor) => {
+		const methodImplementation = utils.genMethodImplementation(methodName);
+		console.log(`Will write :\n ${methodImplementation}`);
+	
+		editor.edit((editBuilder) => {
+			editBuilder.insert(new vscode.Position(editor.document.lineCount, 0), methodImplementation);
+		});
+	});
 }
 
 export function activate(context: vscode.ExtensionContext) {

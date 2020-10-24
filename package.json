@@ -37,7 +37,7 @@
 			{
 				"command": "cppclasscreator.implementMethod",
 				"title": "C++: Implement Method"
-			},
+			}
 		
 		],
 		"keybindings":[
